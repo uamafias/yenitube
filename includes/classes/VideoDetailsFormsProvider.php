@@ -17,7 +17,7 @@ class VideoDetailsFormProvider{
         $privacyInput = $this-> createPrivacyInput();
         $catergoriesInput = $this->createCategoriesInput();
         $uploadButton = $this->createUploadButton();
-        return "<form action='processing.php' method='POST'>
+        return "<form action='processing.php' method='POST' enctype='multipart/form-data'>
                     $fileInput
                     $titleInput
                     $descriptionInput
@@ -50,7 +50,7 @@ class VideoDetailsFormProvider{
 
     private function createPrivacyInput(){
         return "<div class='form-group' id='form4'>
-                        <select class='form-control' name'privacyInput'>
+                        <select class='form-control' name='privacyInput'>
                             <option value='0'>Private</option>
                             <option value='1'>Public</option>
                         </select>
@@ -62,7 +62,7 @@ class VideoDetailsFormProvider{
         $query->execute();
 
         $html = "<div class='form-group' id='form5'>
-                   <select class='form-control' name'categoriesInput'>";
+                   <select class='form-control' name='categoriesInput'>";
 
         while($row =$query->fetch(PDO::FETCH_ASSOC)){
             $name = $row["name"];
