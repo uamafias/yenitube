@@ -146,3 +146,16 @@ a:hover{
     padding: 15px;
 }
 
+/* Sign in & Sign Up CSS */
+
+.signInContainer{
+    background-color: #efefee;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.signInContainer .column .header img{
+    width: 100px;
+}
