@@ -3,7 +3,8 @@
 <?php
 // session_destroy();
 if(isset($_SESSION["userLoggedIn"])){
-    echo "user is logged in as " . $_SESSION["userLoggedIn"];
+
+    echo "user is logged in as " . $userLoggedInObj->getSignUpDate();
 }else{
     echo "not logged in ";
 }
