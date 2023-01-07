@@ -1,7 +1,15 @@
 <?php  require_once("includes/header.php"); ?>
                            
+<?php
+// session_destroy();
+if(isset($_SESSION["userLoggedIn"])){
 
-Hello Everyone
+    echo "user is logged in as " . $userLoggedInObj->getSignUpDate();
+}else{
+    echo "not logged in ";
+}
+
+?>
 
 
 <?php  require_once("includes/footer.php"); ?>                   
