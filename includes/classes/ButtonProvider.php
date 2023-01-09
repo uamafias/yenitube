@@ -1,45 +1,37 @@
 <?php
-class ButtonProvider{
-    //NB This class wont have a constractor it will caryy static functions and we wont 
-    //have to create instances of this class to use them
+class ButtonProvider {
+
     public static $signInFunction = "notSignedIn()";
 
-
-    public static function createLink($link){
+    public static function createLink($link) {
         return User::isLoggedIn() ? $link : ButtonProvider::$signInFunction;
     }
 
-
-    public static function createButton($text, $imageSrc, $action, $class){
+    public static function createButton($text, $imageSrc, $action, $class) {
 
         $image = ($imageSrc == null) ? "" : "<img src='$imageSrc'>";
 
-        $action = ButtonProvider::createLink($action);
-
+        $action  = ButtonProvider::createLink($action);
 
         return "<button class='$class' onclick='$action'>
                     $image
                     <span class='text'>$text</span>
-                    
                 </button>";
-
     }
 
-    public static function createHyperlinkButton($text, $imageSrc, $href, $class){
+    public static function createHyperlinkButton($text, $imageSrc, $href, $class) {
 
         $image = ($imageSrc == null) ? "" : "<img src='$imageSrc'>";
 
-
         return "<a href='$href'>
-                <button class='$class'>
-                    $image
-                    <span class='text'>$text</span>
-                    
-                </button>
+                    <button class='$class'>
+                        $image
+                        <span class='text'>$text</span>
+                    </button>
                 </a>";
     }
 
-    public static function createUserProfileButton($con, $username){
+    public static function createUserProfileButton($con, $username) {
         $userObj = new User($con, $username);
         $profilePic = $userObj->getProfilePic();
         $link = "profile.php?username=$username";
@@ -48,36 +40,33 @@ class ButtonProvider{
                     <img src='$profilePic' class='profilePicture'>
                 </a>";
     }
+    
+    public static function createEditVideoButton($videoId) {
+        $href = "editVideo.php?videoId=$videoId";
 
-    public static function createEditVideoButton($videoId){
-        
-        $href = "editvideo.php?videoId=$videoId";
+        $button = ButtonProvider::createHyperlinkButton("EDIT VIDEO", null, $href, "edit button");
 
-        $button = ButtonProvider:: createHyperlinkButton("EDIT VIDEO", null, $href, "edit button");
-
-        return "<div class=createEditVideoButton'>
-             $button
+        return "<div class='editVideoButtonContainer'>
+                    $button
                 </div>";
     }
+    
+    public static function createSubscriberButton($con, $userToObj, $userLoggedInObj) {
+        $userTo = $userToObj->getUsername();
+        $userLoggedIn = $userLoggedInObj->getUsername();
 
-    public static function createSubscriberButton($con, $userToObj, $userLoggedInObj){
+        $isSubscribedTo = $userLoggedInObj->isSubscribedTo($userTo);
+        $buttonText = $isSubscribedTo ? "SUBSCRIBED" : "SUBSCRIBE";
+        $buttonText .= " " . $userToObj->getSubscriberCount();
 
-            $userTo = $userToObj->getUsername();
-            $userLoggedIn = $userLoggedInObj->getUsername();
+        $buttonClass = $isSubscribedTo ? "unsubscribe button" : "subscribe button";
+        $action = "subscribe(\"$userTo\", \"$userLoggedIn\", this)";
 
-            $isSubscribedTo = $userLoggedInObj->isSubcribedTo($userTo); 
-            $buttonText = $isSubscribedTo ? "SUBSCRIBED" : "SUBSCRIBE";
-            $buttonText .= " " . $userToObj->getSubcriberCount();
+        $button = ButtonProvider::createButton($buttonText, null, $action, $buttonClass);
 
-             $buttonClass = $isSubscribedTo ? "unsubcribe button" : "subcribe button";
-             $action = "subcribe(\"$userTo\", \"$userLoggedIn\", this)";
-
-             $button = ButtonProvider::createButton($buttonText, null, $action, $buttonClass);
-
-                return "<div class='subcriberButtonContainer'>
-                            $button
-                        </div>";
-
+        return "<div class='subscribeButtonContainer'>
+                    $button
+                </div>";
     }
 
 }
