@@ -30,7 +30,7 @@ class ButtonProvider{
         $image = ($imageSrc == null) ? "" : "<img src='$imageSrc'>";
 
 
-        return "<a href'$href'>
+        return "<a href='$href'>
                 <button class='$class'>
                     $image
                     <span class='text'>$text</span>
@@ -58,6 +58,26 @@ class ButtonProvider{
         return "<div class=createEditVideoButton'>
              $button
                 </div>";
+    }
+
+    public static function createSubscriberButton($con, $userToObj, $userLoggedInObj){
+
+            $userTo = $userToObj->getUsername();
+            $userLoggedIn = $userLoggedInObj->getUsername();
+
+            $isSubscribedTo = $userLoggedInObj->isSubcribedTo($userTo); 
+            $buttonText = $isSubscribedTo ? "SUBSCRIBED" : "SUBSCRIBE";
+            $buttonText .= " " . $userToObj->getSubcriberCount();
+
+             $buttonClass = $isSubscribedTo ? "unsubcribe button" : "subcribe button";
+             $action = "subcribe(\"$userTo\", \"$userLoggedIn\", this)";
+
+             $button = ButtonProvider::createButton($buttonText, null, $action, $buttonClass);
+
+                return "<div class='subcriberButtonContainer'>
+                            $button
+                        </div>";
+
     }
 
 }
